@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}SmartCampus{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="layout">
+        <div class="sidebar">
+            <h1><a href="{% url 'home' %}" style="color:inherit; text-decoration:none;">SmartCampus</a></h1>
+            <div class="tagline">Records &amp; Registry</div>
+            <nav>
+                {% if user.is_authenticated %}
+                    {% if user.role == "admin" or user.is_superuser %}
+                        <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+                    {% endif %}
+                    {% if user.role == "lecturer" or user.is_superuser %}
+                        <a href="{% url 'lecturer_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'my_courses' %}">My Courses</a>
+                        <a href="{% url 'create_course' %}">Create Course</a>
+                        <a href="{% url 'my_notifications' %}">Notifications {% if unread_notifications %}<span class="badge badge-gold">{{ unread_notifications }}</span>{% endif %}</a>
+                        <a href="{% url 'profile_edit' %}">Edit Profile</a>
+                    {% endif %}
+                    {% if user.role == "student" %}
+                        <a href="{% url 'student_dashboard' %}">Dashboard</a>
+                        <a href="{% url 'browse_courses' %}">Browse Courses</a>
+                        <a href="{% url 'my_enrollments' %}">My Enrollments</a>
+                        <a href="{% url 'my_grades' %}">My Grades</a>
+                        <a href="{% url 'my_notifications' %}">Notifications {% if unread_notifications %}<span class="badge badge-gold">{{ unread_notifications }}</span>{% endif %}</a>
+                        <a href="{% url 'profile_edit' %}">Edit Profile</a>
+                    {% endif %}
+                    <a href="{% url 'logout' %}">Log Out</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+        <div class="main">
+            {% if user.is_authenticated %}
+            <div class="topbar">
+                <div class="id-card">
+                    <div class="seal">{% if user.is_superuser %}ADMIN{% else %}{{ user.role|upper }}{% endif %}</div>
+                    <div class="details">
+                        <div class="username">{{ user.username }}</div>
+                        {% if user.matric_number %}<div>Matric: {{ user.matric_number }}</div>{% endif %}
+                        {% if user.department %}<div>{{ user.department }}</div>{% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+            </ul>
+            {% endif %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>

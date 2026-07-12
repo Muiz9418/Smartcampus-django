@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ course.code }}{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h2><span class="code">{{ course.code }}</span> — {{ course.title }}</h2><p>{{ course.description }}</p></div>
+</div>
+
+<div class="card" style="max-width:520px;">
+    <h3 style="font-family:var(--font-display); font-size:17px; margin-top:0;">Upload Material</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Upload</button>
+    </form>
+</div>
+
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Title</th><th>Uploaded</th><th></th></tr></thead>
+        <tbody>
+        {% for m in materials %}
+            <tr>
+                <td>{{ m.title }}{% if m.description %}<div style="font-size:13px; color:var(--color-ink-soft);">{{ m.description }}</div>{% endif %}</td>
+                <td class="code">{{ m.uploaded_at|date:"M d, Y" }}</td>
+                <td><a href="{{ m.file.url }}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;" target="_blank">Download</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No materials uploaded yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'post_announcement' course.id %}" class="btn" style="margin-right:8px;">Post Announcement</a>
+<a href="{% url 'my_courses' %}" class="btn btn-outline">Back to My Courses</a>
+{% endblock %}

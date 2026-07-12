@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Browse Courses{% endblock %}
+{% block content %}
+<h2>Available Courses</h2>
+<div class="card">
+    <ul class="ledger">
+        {% for course in courses %}
+            <li>
+                <span><span class="code">{{ course.code }}</span> — {{ course.title }}</span>
+                <form method="post" action="{% url 'enroll_course' course.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Enroll</button>
+                </form>
+            </li>
+        {% empty %}
+            <li class="empty-state">No courses available right now.</li>
+        {% endfor %}
+    </ul>
+</div>
+<a href="{% url 'my_enrollments' %}" class="btn btn-outline">My Enrollments</a>
+{% endblock %}

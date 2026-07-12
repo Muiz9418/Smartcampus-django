@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h2>Registry overview</h2><p>System-wide academic records</p></div>
+    <a href="{% url 'broadcast_message' %}" class="btn" style="margin-right:8px;">Send Broadcast</a>
+    <a href="/admin/" class="btn btn-outline">Open Django Admin</a>
+</div>
+<div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value">{{ student_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">Lecturers</div><div class="stat-value">{{ lecturer_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">Courses</div><div class="stat-value">{{ course_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">Enrollments</div><div class="stat-value">{{ enrollment_count }}</div></div>
+</div>
+
+<div class="page-header" style="margin-top:8px;"><div><h2 style="font-size:19px;">Students</h2></div></div>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Username</th><th>Matric</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for s in students %}
+            <tr>
+                <td>{{ s.username }}</td>
+                <td class="code">{{ s.matric_number|default:"—" }}</td>
+                <td>{% if s.is_verified %}<span class="badge badge-gold">Verified</span>{% else %}<span class="badge badge-navy">Unverified</span>{% endif %}</td>
+                <td><a href="{% url 'toggle_verify' s.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;">Toggle</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="4" class="empty-state">No students registered yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="pagination">
+    {% if students.has_previous %}<a href="?student_page={{ students.previous_page_number }}">Prev</a>{% endif %}
+    <span class="current">{{ students.number }} / {{ students.paginator.num_pages }}</span>
+    {% if students.has_next %}<a href="?student_page={{ students.next_page_number }}">Next</a>{% endif %}
+</div>
+
+<div class="page-header"><div><h2 style="font-size:19px;">Lecturers</h2></div></div>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Username</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        {% for l in lecturers %}
+            <tr>
+                <td>{{ l.username }}</td>
+                <td>{% if l.is_verified %}<span class="badge badge-gold">Verified</span>{% else %}<span class="badge badge-navy">Unverified</span>{% endif %}</td>
+                <td><a href="{% url 'toggle_verify' l.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;">Toggle</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No lecturers registered yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="pagination">
+    {% if lecturers.has_previous %}<a href="?lecturer_page={{ lecturers.previous_page_number }}">Prev</a>{% endif %}
+    <span class="current">{{ lecturers.number }} / {{ lecturers.paginator.num_pages }}</span>
+    {% if lecturers.has_next %}<a href="?lecturer_page={{ lecturers.next_page_number }}">Next</a>{% endif %}
+</div>
+
+<div class="page-header"><div><h2 style="font-size:19px;">Courses</h2></div></div>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Code</th><th>Title</th><th>Lecturer</th></tr></thead>
+        <tbody>
+        {% for c in courses %}
+            <tr><td class="code">{{ c.code }}</td><td>{{ c.title }}</td><td>{{ c.lecturer.username }}</td></tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No courses created yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="pagination">
+    {% if courses.has_previous %}<a href="?course_page={{ courses.previous_page_number }}">Prev</a>{% endif %}
+    <span class="current">{{ courses.number }} / {{ courses.paginator.num_pages }}</span>
+    {% if courses.has_next %}<a href="?course_page={{ courses.next_page_number }}">Next</a>{% endif %}
+</div>
+{% endblock %}

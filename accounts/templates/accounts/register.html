@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Register - SmartCampus{% endblock %}
+{% block content %}
+<h2>Register</h2>
+<div class="card" style="max-width: 480px;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Register</button>
+    </form>
+</div>
+<p style="font-size:14px; color:var(--color-ink-soft);">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Mark Attendance{% endblock %}
+{% block content %}
+<h2>Mark Attendance — <span class="code">{{ course.code }}</span> ({{ today }})</h2>
+<div class="card">
+    <form method="post">
+        {% csrf_token %}
+        <ul class="ledger">
+            {% for enrollment in enrollments %}
+                <li>
+                    <label style="display:flex; align-items:center; gap:10px; width:100%;">
+                        <input type="checkbox" name="present_{{ enrollment.id }}" style="width:auto;">
+                        {{ enrollment.student.username }}
+                    </label>
+                </li>
+            {% empty %}
+                <li class="empty-state">No students enrolled yet.</li>
+            {% endfor %}
+        </ul>
+        <button type="submit" class="btn" style="margin-top:16px;">Save Attendance</button>
+    </form>
+</div>
+<a href="{% url 'my_courses' %}" class="btn btn-outline">Back to My Courses</a>
+{% endblock %}

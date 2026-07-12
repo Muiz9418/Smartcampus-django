@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Post Announcement{% endblock %}
+{% block content %}
+<h2>Post Announcement — <span class="code">{{ course.code }}</span></h2>
+<div class="card" style="max-width:520px;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Send to All Students</button>
+    </form>
+</div>
+<a href="{% url 'course_detail' course.id %}" class="btn btn-outline">Back to Course</a>
+{% endblock %}

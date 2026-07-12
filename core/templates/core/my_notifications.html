@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Notifications{% endblock %}
+{% block content %}
+<h2>Notifications</h2>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Course</th><th>Message</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for n in notifications %}
+            <tr>
+                <td class="code">{{ n.course.code|default:"General" }}</td>
+                <td>{{ n.message }}</td>
+                <td>{{ n.created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No notifications yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

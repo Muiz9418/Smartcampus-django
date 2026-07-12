@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Courses{% endblock %}
+{% block content %}
+<h2>My Courses</h2>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Code</th><th>Course</th><th></th></tr></thead>
+        <tbody>
+        {% for course in courses %}
+            <tr>
+                <td class="code">{{ course.code }}</td>
+                <td>{{ course.title }}</td>
+                <td>
+                    <a href="{% url 'course_detail' course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px; margin-right:6px;">Details</a>
+                    <a href="{% url 'mark_attendance' course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px; margin-right:6px;">Attendance</a>
+                    <a href="{% url 'enter_grades' course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;">Grades</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No courses yet. Create your first course to get started.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'create_course' %}" class="btn">+ Create New Course</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Broadcast Message{% endblock %}
+{% block content %}
+<h2>Send a Broadcast Message</h2>
+<div class="card" style="max-width:520px;">
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label>Message:</label>
+            <textarea name="message" rows="4" required></textarea>
+        </p>
+        <p>
+            <label>Send to:</label>
+            <select name="target">
+                <option value="all">Everyone</option>
+                <option value="students">Students Only</option>
+                <option value="lecturers">Lecturers Only</option>
+            </select>
+        </p>
+        <button type="submit" class="btn">Send Broadcast</button>
+    </form>
+</div>
+<a href="{% url 'admin_dashboard' %}" class="btn btn-outline">Back to Dashboard</a>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Enrollments{% endblock %}
+{% block content %}
+<h2>My Enrolled Courses</h2>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Code</th><th>Course</th><th></th></tr></thead>
+        <tbody>
+        {% for enrollment in enrollments %}
+            <tr>
+                <td class="code">{{ enrollment.course.code }}</td>
+                <td>{{ enrollment.course.title }}</td>
+                <td>
+                    <a href="{% url 'student_course_detail' enrollment.course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px; margin-right:6px;">Details</a>
+                    <a href="{% url 'my_attendance' enrollment.course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;">Attendance</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">No enrollments yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'browse_courses' %}" class="btn">Browse Courses</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><h2>Welcome back, {{ user.username }}</h2><p>Your academic overview</p></div>
+</div>
+<div class="stats-grid">
+    <div class="stat-card"><div class="stat-label">Enrolled Courses</div><div class="stat-value">{{ course_count }}</div></div>
+    <div class="stat-card"><div class="stat-label">Attendance Rate</div><div class="stat-value">{{ attendance_rate }}%</div></div>
+    <div class="stat-card"><div class="stat-label">Courses Graded</div><div class="stat-value">{{ graded_count }}</div></div>
+</div>
+<div class="table-wrap">
+    <table class="data-table">
+        <thead><tr><th>Code</th><th>Course</th><th></th></tr></thead>
+        <tbody>
+        {% for e in enrollments %}
+            <tr>
+                <td class="code">{{ e.course.code }}</td>
+                <td>{{ e.course.title }}</td>
+                <td><a href="{% url 'my_attendance' e.course.id %}" class="btn btn-outline" style="padding:6px 14px; font-size:13px;">Attendance</a></td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="3" class="empty-state">You're not enrolled in any courses yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'browse_courses' %}" class="btn">Browse Courses</a>
+{% endblock %}

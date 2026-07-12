@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}SmartCampus{% endblock %}
+{% block content %}
+<div class="hero">
+    <h2>Academic records, kept properly.</h2>
+    <p>SmartCampus is the registry for your courses, attendance, and grades — one record for every student, lecturer, and course, built for real institutions.</p>
+    <a href="{% url 'register' %}" class="btn" style="margin-right:8px;">Register</a>
+    <a href="{% url 'login' %}" class="btn btn-outline">Login</a>
+</div>
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-label">For Students</div>
+        <div style="font-size:14px; color:var(--color-ink-soft); margin-top:6px;">Track courses, attendance, and grades in one place.</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">For Lecturers</div>
+        <div style="font-size:14px; color:var(--color-ink-soft); margin-top:6px;">Create courses, mark attendance, and enter grades.</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">For Admins</div>
+        <div style="font-size:14px; color:var(--color-ink-soft); margin-top:6px;">Oversee the full registry — users, courses, enrollments.</div>
+    </div>
+</div>
+{% endblock %}
