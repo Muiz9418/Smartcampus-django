@@ -7,3 +7,4 @@ media/
 .DS_Store
 test-notes.txt
 staticfiles/
+staticfiles/
