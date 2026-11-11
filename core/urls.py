@@ -15,4 +15,5 @@ urlpatterns = [
     path("student-detail/<int:course_id>/", views.student_course_detail, name="student_course_detail"),
     path("announce/<int:course_id>/", views.post_announcement, name="post_announcement"),
     path("notifications/", views.my_notifications, name="my_notifications"),
+    # path("broadcast/", views.broadcast_message, name="broadcast_message"),
 ]

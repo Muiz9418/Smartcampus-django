@@ -12,6 +12,7 @@ class Course(models.Model):
         related_name="courses_taught",
         limit_choices_to={"role": "lecturer"},
     )
+    credit_hours = models.PositiveSmallIntegerField(default=3)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -26,6 +27,7 @@ class Enrollment(models.Model):
         limit_choices_to={"role": "student"},
     )
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="enrollments")
+    semester = models.CharField(max_length=50, blank=True, null=True)  # e.g. "Fall 2024"
     enrolled_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

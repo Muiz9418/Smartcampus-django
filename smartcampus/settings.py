@@ -9,7 +9,7 @@ SECRET_KEY = 'django-insecure-2ie^1(_e1qa*5^h41t6fjcol=wo9a-bome(y-yiy=87%$raue2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -21,11 +21,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-     'accounts',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
+    'accounts',
     'core',
+    'api',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -108,9 +113,20 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "accounts.User"
 
 LOGIN_URL = "login"
 
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+CORS_ALLOW_ALL_ORIGINS = True  # DEV ONLY — replace before real deployment
+
+AUTH_USER_MODEL = 'accounts.User'
