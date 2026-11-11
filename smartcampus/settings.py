@@ -130,3 +130,18 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True  # DEV ONLY — replace before real deployment
 
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# ---- Deployment overrides (env-driven; local dev unchanged) ----
+import dj_database_url
+
+DEBUG = os.environ.get("DEBUG", "True") == "True"
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+
+if os.environ.get("DATABASE_URL"):
+    DATABASES["default"] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+MIDDLEWARE.insert(2, "whitenoise.middleware.WhiteNoiseMiddleware")
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
