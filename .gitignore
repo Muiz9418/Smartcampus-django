@@ -2,7 +2,7 @@ venv/
 __pycache__/
 *.pyc
 db.sqlite3
-.env
+.env DJANGO_SECRET_KEY=l*wq6=y+uze)9q6^2si1c4c+)+v#@2owg90w2%b4df_4++=b4b
 media/
 .DS_Store
 test-notes.txt
